@@ -44,3 +44,5 @@ func NewError(key string, err error) CommonError {
 	res.Errors[key] = err.Error()
 	return res
 }
+
+const SecretKeyJwt = "JWTSecret"
