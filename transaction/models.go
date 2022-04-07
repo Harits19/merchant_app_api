@@ -67,8 +67,6 @@ func OmzetPerDay(userId string, yearMonth string) ([]OmzetPerDayModel, error) {
 
 	var tempModels []OmzetPerDayModel
 
-	merchantName := models[0].MerchantName
-
 	fmt.Println("lastDay : ", lastDay)
 
 	for index := 1; index <= lastDay; index++ {
@@ -82,7 +80,8 @@ func OmzetPerDay(userId string, yearMonth string) ([]OmzetPerDayModel, error) {
 		}
 		if !isSameDay {
 			tempModels = append(tempModels, OmzetPerDayModel{
-				MerchantName: merchantName,
+				MerchantName: "-",
+				OutletName:   "-",
 				TotalOmzet:   "0",
 				Date:         date,
 			})
