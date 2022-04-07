@@ -116,3 +116,54 @@ func (_r *AreaRepository) InsertArea(param1 float64, param2 float64, type2 strin
 	return
 }
 ```
+
+## Nomor 3
+
+```
+variabel inputDeret0
+variabel inputDeret1
+variabel selisih = inputDeret1 - inputDeret0
+variabel panjangDeret
+
+variabel index = 2
+variabel angka array
+angka array dimasukkan variabel inputDeret0
+angka array dimasukkan variabel inputDeret1
+
+for selama index lebih kecil dari panjang deret{
+	variabel nilai = angka array pada index - 1 * index + selisih
+	array angka dimasukkan variabel nilai
+}
+menampilkan variabel angka
+
+```
+
+## Nomor4
+
+```
+variabel listAngka array
+variabel isAscending = true
+
+for index1 = 0; index1 < panjang listAngka; setiap perulangan selesai index1 ditambah 1{
+	for index2 = index1 +1; index2 < panjang listAngka; setiap perulangan selesai index2 ditambah 1{
+		variabel angka1 = listAngka pada index1
+		variabel angka2 = listAngka pada index2
+		if jika isAscending == true{
+			if angka1 lebih besar dari angka2{
+				listAngka pada index1 = angka2
+				listAngka pada index2 = angka1
+			}
+		}else{
+			if angka1 lebih kecil dari angka2{
+				listAngka pada index1 = angka2
+				listAngka pada index2 = angka1
+			}
+		}
+
+	}
+
+	menampilkan variabel listAngka
+}
+
+
+```
