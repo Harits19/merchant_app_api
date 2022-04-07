@@ -41,8 +41,8 @@ func OmzetPerDay(userId string, yearMonth string) ([]OmzetPerDayModel, error) {
 	join transactions as T on
 		T.outlet_id = O.id
 	where
-		U.id = 2
-		and DATE_FORMAT(T.updated_at, '%Y-%m') = "2021-11"
+		U.id = ?
+		and DATE_FORMAT(T.updated_at, '%Y-%m') = ?
 	group by
 			date
 	`, userId, yearMonth)
