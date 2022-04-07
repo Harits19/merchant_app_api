@@ -23,7 +23,21 @@ func FindOneSql(userName string) (UserModel, error) {
 
 	var model UserModel
 
-	row := common.Db.QueryRow("SELECT id, name, user_name, password, created_at, created_by, updated_at, updated_by FROM users WHERE user_name=?", userName)
+	row := common.Db.QueryRow(`
+	select
+		id,
+		name,
+		user_name,
+		password,
+		created_at,
+		created_by,
+		updated_at,
+		updated_by
+	from
+		users
+	where
+		user_name =?
+	`, userName)
 
 	err := row.Scan(&model.Id, &model.Name, &model.UserName, &model.Password, &model.Modified.CreatedAt, &model.Modified.CreatedBy, &model.Modified.UpdatedAt, &model.Modified.UpdatedBy)
 	if err != nil {

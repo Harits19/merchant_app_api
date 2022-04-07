@@ -30,3 +30,71 @@ Nomor 1 :
     group by
 	    date
 ```
+
+## Nomor 2
+
+- Pembuatan struct salah. Variabel AreaValue diganti menjadi float menyamakan dengan nilai fungsi yang ada
+- Tipe data dari param1 dan param2 disamakan agar tidak terjadi error
+- Penamaan variabel type harus diganti karena type sendiri merupakan syntax dari bahasa Golang
+- Tipe data type2 yang awalnya []string diganti menjadi string agar berjalan statement switch case
+- Penulisan syntax Var diganti menjadi var
+- Terdapat perulangan pembuatan variabel area
+- Terdapat perulangan untuk menajalan fungsi create pada variabel Db
+- Terdapat varibel inst yang tidakd digunakan
+
+Code setelah diubah:
+
+```
+package main
+
+import (
+	"errors"
+	"log"
+)
+
+type Area struct {
+	ID        int64   `gorm:"column:id;primaryKey;"`
+	AreaValue float64 `gorm:"column:area_value"`
+	AreaType  string  `gorm:"column:type"`
+}
+
+func call() error {
+	err := _u.repository.InsertArea(10, 10, "persegi")
+	if err != nil {
+		log.Error().Msg(err.Error())
+		err = errors.New(en.ERROR_DATABASE)
+		return err
+	}
+	return nil
+}
+
+func (_r *AreaRepository) InsertArea(param1 float64, param2 float64, type2 string, ar *Area) (err error) {
+	inst := _r.DB.Model(ar)
+	var area float64
+	area = 0
+	switch type2 {
+	case "persegi panjang":
+		area = param1 * param2
+		ar.AreaValue = area
+		ar.AreaType = "persegi panjang"
+
+	case "persegi":
+		area = param1 * param2
+		ar.AreaValue = area
+		ar.AreaType = "persegi"
+	case "segitiga":
+
+		area = 0.5 * (param1 * param2)
+		ar.AreaValue = area
+		ar.AreaType = "segitiga"
+	default:
+		ar.AreaValue = 0
+		ar.AreaType = "undefined data"
+	}
+	err = _r.DB.create(&ar).Error
+	if err != nil {
+		return err
+	}
+	return
+}
+```
