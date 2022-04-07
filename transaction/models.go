@@ -32,19 +32,19 @@ func OmzetPerDay(userId string, yearMonth string) ([]OmzetPerDayModel, error) {
 		MIN(O.outlet_name) as outlet_name ,
 		SUM(T.bill_total) as total_omzet,
 		DATE_FORMAT(T.updated_at, '%Y-%m-%d') as date
-	from
-		transactions as T
+	from 
+		users as U
 	join merchants as M on
-		T.merchant_id = M.id
-	join users as U on
 		M.user_id = U.id
 	join outlets as O on
-		O.id = T.outlet_id
+		M.id = O.merchant_id
+	join transactions as T on
+		T.outlet_id = O.id
 	where
-		U.id = ?
-		and DATE_FORMAT(T.updated_at, '%Y-%m') = ?
+		U.id = 2
+		and DATE_FORMAT(T.updated_at, '%Y-%m') = "2021-11"
 	group by
-		date
+			date
 	`, userId, yearMonth)
 
 	if err != nil {
