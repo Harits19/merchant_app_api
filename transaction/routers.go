@@ -8,10 +8,25 @@ import (
 )
 
 func Routers(router *gin.RouterGroup) {
-	router.GET("/omzet", OmzetByMerchantId)
+	router.GET("/omzet", OmzetMerchant)
+	router.GET("/omzet-outlet", OmzetMerchantOutlet)
 }
 
-func OmzetByMerchantId(c *gin.Context) {
+func OmzetMerchant(c *gin.Context) {
+	yearMonth := c.Query("year-month")
+	modelJwt := c.MustGet("my_user_model").(user.UserModel)
+
+	result, err := OmzetPerDay(modelJwt.Id, yearMonth)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	serialize := OmzetWithoutOutlets(result)
+	c.JSON(http.StatusOK, serialize)
+
+}
+
+func OmzetMerchantOutlet(c *gin.Context) {
 	yearMonth := c.Query("year-month")
 	modelJwt := c.MustGet("my_user_model").(user.UserModel)
 

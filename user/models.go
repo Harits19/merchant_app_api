@@ -10,7 +10,7 @@ type UserModel struct {
 	Id       string               `json:"id"`
 	Name     string               `json:"name" binding:"required"`
 	UserName string               `json:"user_name" binding:"required"`
-	Password string               `json:"password" binding:"required"`
+	Password string               `json:"password,omitempty" binding:"required"`
 	Modified common.ModifiedModel `json:"modified"`
 }
 

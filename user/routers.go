@@ -36,6 +36,7 @@ func UserLogin(c *gin.Context) {
 	}
 
 	token := GenToken(login.UserName)
+	model.Password = ""
 
 	c.JSON(http.StatusCreated, gin.H{
 		"user":  model,

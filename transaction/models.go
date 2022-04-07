@@ -17,6 +17,7 @@ type TransactionModel struct {
 
 type OmzetPerDayModel struct {
 	MerchantName string `json:"merchant_name"`
+	OutletName   string `json:"outlet_name,omitempty"`
 	TotalOmzet   string `json:"total_omzet"`
 	Date         string `json:"date"`
 }
@@ -25,12 +26,26 @@ func OmzetPerDay(userId string, yearMonth string) ([]OmzetPerDayModel, error) {
 
 	var models []OmzetPerDayModel
 
-	rows, err := common.Db.Query(`SELECT MIN(M.merchant_name) AS merchant_name, SUM(T.bill_total) AS total_omzet, DATE_FORMAT(T.updated_at, '%Y-%m-%d') AS date
-	FROM transactions AS T 
-	JOIN merchants AS M ON T.merchant_id=M.id
-	JOIN users AS U ON M.user_id=U.id
-	WHERE U.id = ? AND DATE_FORMAT(T.updated_at, '%Y-%m') = ?
-	GROUP BY date `, userId, yearMonth)
+	rows, err := common.Db.Query(`
+	select
+		MIN(M.merchant_name) as merchant_name,
+		MIN(O.outlet_name) as outlet_name ,
+		SUM(T.bill_total) as total_omzet,
+		DATE_FORMAT(T.updated_at, '%Y-%m-%d') as date
+	from
+		transactions as T
+	join merchants as M on
+		T.merchant_id = M.id
+	join users as U on
+		M.user_id = U.id
+	join outlets as O on
+		O.id = T.outlet_id
+	where
+		U.id = ?
+		and DATE_FORMAT(T.updated_at, '%Y-%m') = ?
+	group by
+		date
+	`, userId, yearMonth)
 
 	if err != nil {
 		return models, err
@@ -38,7 +53,7 @@ func OmzetPerDay(userId string, yearMonth string) ([]OmzetPerDayModel, error) {
 
 	for rows.Next() {
 		var model OmzetPerDayModel
-		err := rows.Scan(&model.MerchantName, &model.TotalOmzet, &model.Date)
+		err := rows.Scan(&model.MerchantName, &model.OutletName, &model.TotalOmzet, &model.Date)
 		if err != nil {
 			return models, err
 		}
@@ -58,7 +73,6 @@ func OmzetPerDay(userId string, yearMonth string) ([]OmzetPerDayModel, error) {
 
 	for index := 1; index <= lastDay; index++ {
 		date := fmt.Sprint(year, "-", int(month), "-", fmt.Sprintf("%02d", index))
-		fmt.Println("date : ", date)
 		isSameDay := false
 		for _, model := range models {
 			if date == model.Date {
