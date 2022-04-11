@@ -1,3 +1,26 @@
+# Merchant App Api
+
+Ini adalah proyek untuk melengkapi kebutuhan rekrutmen pada PT Majoo Indonesia.
+
+# Teknologi
+
+- [**gin**](https://pkg.go.dev/github.com/gin-gonic/gin)
+  Web framework yang membantu membuat aplikasi REST API
+
+- [**jwt**](https://pkg.go.dev/github.com/dgrijalva/jwt-go@v3.2.0+incompatible)
+  Untuk membantu membuat JSON Web Token di aplikasi golang
+
+- [**validator**](https://pkg.go.dev/github.com/go-playground/validator/v10)
+  Untuk membantu memvalidasi data yang dikirimkan dari end user agar sesuai dengan tag pada struct yang diberikan
+
+- [**mysql**](https://pkg.go.dev/github.com/go-sql-driver/mysql)
+  Driver untuk membantu menghubungkan aplikasi dengan database MySQL
+
+# GIF
+
+Berikut merupakan demo dari aplikasi yang telah dibuat
+![Alt Text](https://github.com/Harits19/merchant_app_api/blob/main/demo/demo.gif?raw=true)
+
 # Majoo Test Case Backend
 
 ## Nomor 1 :
