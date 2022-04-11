@@ -12,7 +12,6 @@ import (
 
 func main() {
 
-	// common.InitMongoDB()
 	common.InitMysql()
 	routerLocal := gin.Default()
 	user.Routers(routerLocal.Group("user"))
